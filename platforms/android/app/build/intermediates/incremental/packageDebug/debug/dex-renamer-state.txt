@@ -1,4 +1,4 @@
-#Fri Feb 01 12:36:56 SAST 2019
-base.0=/Users/tshmbowe/Desktop/ionic-weather-app/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
+#Fri Feb 01 12:52:46 SAST 2019
+base.0=/Users/tshmbowe/Desktop/Ionic-Angular-Weather-App/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
