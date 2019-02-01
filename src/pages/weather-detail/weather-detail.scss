@@ -1,0 +1,30 @@
+page-weather-detail {
+  //negative margin to remove unused space in toolbar
+  ion-navbar.toolbar-md, ion-segment.segment-md {
+    margin-bottom: -14px !important;
+  }
+
+  ion-toolbar.toolbar-md {
+    padding: 0 !important;
+  }
+
+  ion-content {
+    background: #051326 !important;
+  }
+
+  button[ion-item], ion-item {
+    border: 0 !important;
+  }
+
+  ion-segment-button {
+    color: #051326 !important;
+  }
+
+  .segment-button.activated, .segment-button.segment-activated {
+    border-color: #051326 !important;
+  }
+
+  .item-block {
+    min-height: 0 !important;
+  }
+}

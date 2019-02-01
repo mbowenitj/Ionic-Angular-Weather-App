@@ -1,0 +1,122 @@
+<!--suppress ALL -->
+<ion-header no-border>
+  <ion-navbar color="white">
+    <ion-title>Weather Detail</ion-title>
+  </ion-navbar>
+  <ion-toolbar *ngIf="showSegment" color="white">
+    <ion-segment [(ngModel)]="whichSegment" (ionChange)="segmentChange($event)">
+      <ion-segment-button value="detail">
+        Detail
+      </ion-segment-button>
+      <ion-segment-button value="hourly">
+        Hourly
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="full-screen" *ngIf="forecast && currentForecast && currentLocation && metrics">
+
+    <!--Detail Segment-->
+
+    <ion-list class="full-screen" *ngIf="whichSegment==='detail'">
+      <ion-item class="center half-screen" text-wrap>
+        <div class="bold large">{{currentLocation.name}}</div>
+        <div class="small">{{utilService.getCalendarDay(currentForecast.time,forecast.timezone)}}</div>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-4 class="center-child">
+              <div>
+                <span class="x-large" ion-text color="text1">
+                  {{utilService.formatTemp(currentForecast.temperatureMax,metrics)}}
+                </span>
+                <span class="large" ion-text color="text1">
+                  {{utilService.formatTemp(currentForecast.temperatureMin,metrics)}}
+                </span>
+                <div class="x-small" ion-text color="text1">RealFeel</div>
+                <span class="large" ion-text color="text2">
+                  {{utilService.formatTemp(currentForecast.apparentTemperatureMax,metrics)}}
+                </span>
+                <span class="medium" ion-text color="text2">
+                  {{utilService.formatTemp(currentForecast.apparentTemperatureMin,metrics)}}
+                </span>
+              </div>
+            </ion-col>
+            <ion-col col-4>
+              <img [src]="utilService.getWeatherIcon(currentForecast.icon)"
+                   onerror="this.src='assets/img/default.png'">
+              <span class="bold small" ion-text color="text1">
+                {{utilService.startCase(currentForecast.icon)}}
+              </span>
+            </ion-col>
+            <ion-col col-4 class="center-child">
+              <div>
+                <img [src]="utilService.getWeatherIcon('sunrise')" style="max-width:40%"
+                     onerror="this.src='assets/img/default.png'">
+                <div class="bold small" ion-text color="text1">
+                  {{utilService.getTime(currentForecast.sunriseTime,metrics,forecast.timezone)}}
+                </div>
+                <img [src]="utilService.getWeatherIcon('sunset')" style="max-width:40%">
+                <div class="bold small" ion-text color="text2">
+                  {{utilService.getTime(currentForecast.sunsetTime,metrics,forecast.timezone)}}
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item text-wrap color="primary" class="half-screen" style="padding-left: 12%;">
+        <ion-grid>
+          <ion-row *ngFor="let detail of detailsArray">
+            <ion-col>
+              <span class="bold small" ion-text color="text3">{{detail.key}}</span>
+            </ion-col>
+            <ion-col>
+              <span class="bold small">{{detail.value}}</span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+
+    <!--Hourly Segment-->
+
+    <ion-list class="full-screen" *ngIf="whichSegment==='hourly'">
+      <div *ngFor="let item of tempArray">
+        <button ion-item detail-none text-wrap (click)="toggleDetails(item)">
+          <img [src]="utilService.getWeatherIcon(item.icon)"
+               onerror="this.src='assets/img/default.png'"
+               item-left style="max-width: 12%">
+          <span class="x-small">{{utilService.getCalendarDay(item.time,forecast.timezone)}}
+            <span ion-text color="text2">
+              {{utilService.getTime(item.time,metrics,forecast.timezone)}}
+            </span>
+          </span>
+          <p ion-text color="text2" class="bold">{{utilService.startCase(item.icon)}}</p>
+          <span class="medium" item-right style="margin-left:0">
+            {{utilService.formatTemp(item.temperature,metrics)}}
+          </span>
+          <ion-icon class="small center-child" item-right color="text1"
+                    [name]="item.showDetails?'arrow-up':'arrow-down'"></ion-icon>
+        </button>
+        <ion-item text-wrap color="primary" style="padding-left: 12%;"
+                  [@collapse]="item.showDetails?'false':'true'">
+          <ion-grid>
+            <ion-row *ngFor="let detail of item.details">
+              <ion-col>
+                <span class="bold small" ion-text color="text3">{{detail.key}}</span>
+              </ion-col>
+              <ion-col>
+                <span class="bold small">{{detail.value}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </div>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="whichSegment==='hourly'">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

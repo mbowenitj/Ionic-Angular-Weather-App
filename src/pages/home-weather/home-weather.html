@@ -1,0 +1,15 @@
+<!--suppress ALL -->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>IONIC WEATHER APP</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="bg-light">
+  <weather-list [location]="location" *ngIf="location"
+                [onInitEmitter]="onInitEmitter"
+                [onDestroyEmitter]="onDestroyEmitter"></weather-list>
+</ion-content>
