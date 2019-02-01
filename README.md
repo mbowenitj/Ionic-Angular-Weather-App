@@ -25,7 +25,7 @@
 ### Browser testing
 ```bash
     $ npm install @ionic/lab
-    $ ionic serve - (wait for the terminal to finish loading)
+    $ ionic serve --lab (wait for the terminal to finish loading)
 ```
 
 ### Make sure all required variables are added correctly to your path for Android and IOS testing
